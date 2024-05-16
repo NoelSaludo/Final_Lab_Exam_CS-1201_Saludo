@@ -3,7 +3,6 @@ from Managers.User_Manager import UserManager
 
 def main():
     usermanager = UserManager()
-    usermanager.load_users()
     dice_game = DiceGame()
     while True: 
         

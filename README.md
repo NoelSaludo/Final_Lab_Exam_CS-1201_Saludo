@@ -1,3 +1,2 @@
-# Lab Exam 2
-### by Bunquin and Saludo
-### CS-1201
+# Dice Game
+### by Noel Zyrence M. Saludo

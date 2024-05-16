@@ -6,20 +6,23 @@ class UserManager():
     islogined = False
     current_user = None
     dataPath = os.path.join("data", "users.txt")
-    if not os.path.exists("data"):
-        os.makedirs("data")
 
     def __init__(self):
+        if not os.path.exists("data"):
+            os.makedirs("data")
+            if open(self.dataPath, "x"):
+                pass
+            else:
+                print ("Error creating file")
         self.load_users()
     
     def load_users(self):
-        if os.path.exists(self.dataPath):
-            with open(self.dataPath, "r") as file:
-                for line in file:
-                    username, password= line.strip().split(",")
-                    self.users.append(User(username, password))
-        else:
-            open(self.dataPath, "x")
+        if not os.path.exists(self.dataPath):
+            return
+        with open(self.dataPath, "r") as file:
+            for line in file:
+                username, password = line.strip().split(",")
+                self.users.append(User(username, password))
     
     def save_user(self):
         with open(self.dataPath, "w") as file:

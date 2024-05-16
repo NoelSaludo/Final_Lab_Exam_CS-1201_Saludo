@@ -8,26 +8,28 @@ class DiceGame():
 
     def __init__(self):
         if not os.path.exists(self.datapath):
-            with open(self.datapath, "w") as file:
+            if open(self.datapath, "x"):
                 pass
+            else:
+                print("Error creating file")
         self.load_scores()
     
     def load_scores(self):
         with open(self.datapath, "r") as file:
              for line in file:
-                name, value, date, won = line.strip("\n").split(",")
-                score = Score(name, int(value), date, won)
+                name, value, won, date = line.strip("\n").split(",")
+                score = Score(name, int(value), won, date)
                 self.listofScores.append(score)
         pass
     
     def save_scores(self):
         with open(self.datapath, "w") as file:
             for score in self.listofScores:
-                file.write(f"{score.name},{score.value},{score.date},{score.stagewon}\n")
+                file.write(f"{score.name},{score.value},{score.stagewon},{score.date}\n")
         pass
     
     def play_game(self, player: str):
-            stage = 0
+            stage = 1
             finalscore = 0
             while True:
                 pscore, cpuscore = 0, 0
@@ -50,7 +52,12 @@ class DiceGame():
                     nextstage = input("Do you want to continue to next stage? (y/n)")
                     if nextstage.lower == 'n':
                         break
-                    continue
+                    if nextstage.lower == 'y':
+                        continue
+                    else:
+                        print("Invalid input")
+                        continue
+                    
                 else:
                     print(f"CPU wins stage {stage}")
                     print(f"Game Over! CPU wins")
@@ -64,8 +71,13 @@ class DiceGame():
             print("No scores available")
             return
         sortedlist = sorted(self.listofScores, key = lambda x: x.value, reverse = True)
+        count = 1
         for score in sortedlist:
             print(f"{score.name}: Points - {score.value}, Wins - {score.stagewon}")
+            if count < 11:
+                count += 1
+                continue
+            break
         pass
 
     
